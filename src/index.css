@@ -1,0 +1,80 @@
+:root {
+  --paper: #1b1c1f;
+  --paper-glass: rgba(27, 28, 31, 0.72);
+  --paper-dim: #232428;
+  --paper-dim-glass: rgba(35, 36, 40, 0.6);
+  --ink: #e8e6df;
+  --ink-soft: #a5a196;
+  --line: #3c3d42;
+
+  --morale: #d98e2f;
+  --supplies: #3f7d52;
+  --order: #6f9bd8;
+  --snowblind: #6fb3c9;
+  --danger: #c2574a;
+
+  --shadow: 0 12px 30px -14px rgba(0, 0, 0, 0.6);
+  --text-glow: 0 2px 14px rgba(0, 0, 0, 0.65);
+
+  --sans: 'Segoe UI', system-ui, Roboto, 'Leelawadee UI', Tahoma, sans-serif;
+  --mono: 'Consolas', ui-monospace, monospace;
+
+  font: 17px/1.5 var(--sans);
+  color-scheme: dark;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Consolas has no Thai glyphs, and the uppercase/wide letter-spacing tuned
+   for Latin monospace looks broken once the browser falls back to a Thai
+   system font. Drop both for any Thai-tagged text. */
+:lang(th) {
+  letter-spacing: normal;
+}
+
+:lang(th).eyebrow,
+:lang(th) .eyebrow,
+:lang(th).card-day,
+:lang(th) .card-day,
+:lang(th) .meter__label,
+:lang(th) .hint {
+  font-family: var(--sans);
+  text-transform: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #141821;
+  min-height: 100svh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2 {
+  font-family: var(--sans);
+  color: var(--ink);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
