@@ -300,8 +300,26 @@ function dampenBias(effects) {
   return out
 }
 
+// Playtesting (real friends, not just simulated bots) showed mashing
+// through cards without reading performed almost as well as reading
+// carefully — every choice's swing was too small to matter. This scales
+// up the (already bias-corrected) magnitudes so each pick has real
+// weight: careless/random play now carries genuine risk of a bad run,
+// while reading the current numbers and reacting still keeps you safer.
+const IMPACT_SCALE = 1.7
+
+function amplify(effects) {
+  if (!effects) return effects
+  const out = {}
+  for (const key of Object.keys(effects)) {
+    const scaled = effects[key] * IMPACT_SCALE
+    out[key] = effects[key] > 0 ? Math.ceil(scaled) : Math.floor(scaled)
+  }
+  return out
+}
+
 export const cards = rawCards.map((c) => ({
   ...c,
-  left: { ...c.left, effects: dampenBias(c.left.effects) },
-  right: { ...c.right, effects: dampenBias(c.right.effects) },
+  left: { ...c.left, effects: amplify(dampenBias(c.left.effects)) },
+  right: { ...c.right, effects: amplify(dampenBias(c.right.effects)) },
 }))
