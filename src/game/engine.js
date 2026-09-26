@@ -8,10 +8,24 @@ function clamp(n) {
   return Math.max(0, Math.min(100, n))
 }
 
-export function applyEffects(meters, effects = {}) {
+// Effects grow sharper after the midpoint of a term so a careless or random
+// run carries real odds of a meter blowing past 0/100 before the day-90
+// forced ending, instead of every choice mattering equally little the whole
+// way through (playtesting: reading and reacting still keeps you safer than
+// this scale-up alone would suggest — it raises the floor risk, not the
+// value of paying attention).
+export function stakesMultiplier(turn) {
+  return Math.min(1.8, 1 + Math.max(0, turn - 50) * 0.02)
+}
+
+export function applyEffects(meters, effects = {}, turn = 1) {
   const next = { ...meters }
+  const scale = stakesMultiplier(turn)
   for (const key of METER_KEYS) {
-    if (effects[key]) next[key] = clamp(next[key] + effects[key])
+    if (effects[key]) {
+      const scaled = effects[key] * scale
+      next[key] = clamp(next[key] + (effects[key] > 0 ? Math.ceil(scaled) : Math.floor(scaled)))
+    }
   }
   return next
 }

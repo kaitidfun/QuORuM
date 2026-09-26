@@ -1,8 +1,13 @@
 import { useLanguage } from '../i18n/LanguageContext'
+import ConclusionEndScreen from './ConclusionEndScreen'
 
 function EndScreen({ result, day, onRestart }) {
   const { t } = useLanguage()
   const copy = t.gameOver[result.cause]
+
+  if (copy.pages) {
+    return <ConclusionEndScreen copy={copy} day={day} onRestart={onRestart} />
+  }
 
   return (
     <div className="screen">

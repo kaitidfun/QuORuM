@@ -74,24 +74,31 @@ const rawCards = [
   { id: 'crisis-snowblind-silence', layer: 2, weight: 3, requires: (s) => s.meters.snowblind > 65, left: { effects: { order: 2, snowblind: -3 } }, right: { effects: { morale: 2, snowblind: 4 } } },
 
   // ---------------- Himmavatan Cycle — lore arc ----------------
-  { id: 'lore-first-whisper', layer: 2, weight: 2, minTurn: 6, left: { effects: { snowblind: 2 }, loreEffect: 6 }, right: { effects: { order: 2 }, loreEffect: 1 } },
-  { id: 'lore-origin-rock', layer: 2, weight: 2, minTurn: 10, left: { effects: { snowblind: 2 }, loreEffect: 5 }, right: { effects: { order: 1 }, loreEffect: 1 } },
-  { id: 'lore-origin-drift', layer: 2, weight: 2, minTurn: 10, left: { effects: { snowblind: 2 }, loreEffect: 5 }, right: { effects: { order: 1 }, loreEffect: 1 } },
-  { id: 'lore-origin-awake', layer: 2, weight: 2, minTurn: 14, left: { effects: { snowblind: 2 }, loreEffect: 5 }, right: { effects: { order: 1 }, loreEffect: 1 } },
-  { id: 'lore-follower-count', layer: 2, weight: 2, minTurn: 18, left: { effects: { supplies: -2 }, loreEffect: 6 }, right: { effects: { morale: 2 }, loreEffect: 1 } },
-  { id: 'lore-convert-offer', layer: 2, weight: 2, minTurn: 24, left: { effects: { morale: 2, snowblind: 3 }, loreEffect: 6 }, right: { effects: { order: 2 }, loreEffect: 1 } },
+  // This arc reads as one continuing story ("one version" / "another
+  // version" / "a third version" / "not hundreds anymore, thousands") so
+  // each step requires the previous one's flag — otherwise the weighted
+  // draw could hand a player "Another version" of a story they were never
+  // told, out of nowhere.
+  { id: 'lore-first-whisper', layer: 2, weight: 2, minTurn: 6, left: { effects: { snowblind: 2 }, loreEffect: 6, setFlag: 'heardWhisper' }, right: { effects: { order: 2 }, loreEffect: 1, setFlag: 'heardWhisper' } },
+  { id: 'lore-origin-rock', layer: 2, weight: 2, minTurn: 10, requires: (s) => s.flags.heardWhisper, left: { effects: { snowblind: 2 }, loreEffect: 5, setFlag: 'heardOriginRock' }, right: { effects: { order: 1 }, loreEffect: 1, setFlag: 'heardOriginRock' } },
+  { id: 'lore-origin-drift', layer: 2, weight: 2, minTurn: 10, requires: (s) => s.flags.heardOriginRock, left: { effects: { snowblind: 2 }, loreEffect: 5, setFlag: 'heardOriginDrift' }, right: { effects: { order: 1 }, loreEffect: 1, setFlag: 'heardOriginDrift' } },
+  { id: 'lore-origin-awake', layer: 2, weight: 2, minTurn: 14, requires: (s) => s.flags.heardOriginDrift, left: { effects: { snowblind: 2 }, loreEffect: 5, setFlag: 'heardOriginAwake' }, right: { effects: { order: 1 }, loreEffect: 1, setFlag: 'heardOriginAwake' } },
+  { id: 'lore-follower-count', layer: 2, weight: 2, minTurn: 18, requires: (s) => s.flags.heardOriginAwake, left: { effects: { supplies: -2 }, loreEffect: 6, setFlag: 'heardFollowerCount' }, right: { effects: { morale: 2 }, loreEffect: 1, setFlag: 'heardFollowerCount' } },
+  { id: 'lore-convert-offer', layer: 2, weight: 2, minTurn: 24, requires: (s) => s.flags.heardFollowerCount, left: { effects: { morale: 2, snowblind: 3 }, loreEffect: 6, setFlag: 'heardConvertOffer' }, right: { effects: { order: 2 }, loreEffect: 1, setFlag: 'heardConvertOffer' } },
   {
     id: 'lore-thousand-strong',
     layer: 2,
     weight: 2,
     minTurn: 30,
+    requires: (s) => s.flags.heardConvertOffer,
     left: { effects: { order: 3, supplies: -3 }, loreEffect: 5, queueCard: { id: 'lore-watch-doubled', delay: 3 } },
     right: { effects: { morale: 3 }, loreEffect: 5, queueCard: { id: 'lore-false-calm', delay: 3 } },
   },
   { id: 'lore-watch-doubled', layer: 2, weight: 1, left: { effects: {}, loreEffect: 4 }, right: { effects: { order: 2, morale: -3 }, loreEffect: 6 } },
   { id: 'lore-false-calm', layer: 2, weight: 1, left: { effects: { morale: 3 }, loreEffect: 3 }, right: { effects: { snowblind: 2 }, loreEffect: 5 } },
-  { id: 'lore-camp-fell', layer: 2, weight: 2, minTurn: 36, left: { effects: { supplies: -3, morale: 2 }, loreEffect: 8 }, right: { effects: { order: 2 }, loreEffect: 4 } },
-  { id: 'lore-the-pattern', layer: 2, weight: 2, minTurn: 42, left: { effects: { order: 2, morale: -3 }, loreEffect: 7 }, right: { effects: { snowblind: 2 }, loreEffect: 4 } },
+  { id: 'lore-camp-fell', layer: 2, weight: 2, minTurn: 36, left: { effects: { supplies: -3, morale: 2 }, loreEffect: 8, setFlag: 'heardCampFell' }, right: { effects: { order: 2 }, loreEffect: 4, setFlag: 'heardCampFell' } },
+  // "Piecing it together" only makes sense once the player has the camp-fell data point.
+  { id: 'lore-the-pattern', layer: 2, weight: 2, minTurn: 42, requires: (s) => s.flags.heardCampFell, left: { effects: { order: 2, morale: -3 }, loreEffect: 7 }, right: { effects: { snowblind: 2 }, loreEffect: 4 } },
   { id: 'lore-gate-visitor', layer: 2, weight: 2, minTurn: 48, left: { effects: { order: 3, supplies: -2 }, loreEffect: 6 }, right: { effects: { morale: 2 }, loreEffect: 5 } },
   { id: 'lore-the-hum', layer: 2, weight: 2, minTurn: 54, left: { effects: { snowblind: 3 }, loreEffect: 7, setFlag: 'heardTheHum' }, right: { effects: { order: 1 }, loreEffect: 3 } },
   { id: 'lore-empty-camps', layer: 2, weight: 2, minTurn: 62, left: { effects: { order: -2, morale: -4 }, loreEffect: 8 }, right: { effects: { snowblind: 2 }, loreEffect: 5 } },
