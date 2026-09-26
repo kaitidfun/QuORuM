@@ -10,6 +10,7 @@ import {
   RECENT_HISTORY_SIZE,
 } from './game/engine'
 import { loadSave, recordRunEnd, markCodexSeen, markCodexRead } from './game/save'
+import { checkNewLogEntries } from './game/log'
 import MeterBar from './components/MeterBar'
 import GameCard from './components/GameCard'
 import StartScreen from './components/StartScreen'
@@ -49,6 +50,8 @@ function newRunState(save) {
     seenIds: [card.id],
     milestoneShown: false,
     milestoneVisible: false,
+    logUnlocked: [],
+    logHasUnread: false,
   }
 }
 
@@ -77,14 +80,18 @@ function App() {
   }
 
   function handleOpenCodex(category) {
-    setSave(markCodexRead(category))
+    if (category === 'log') {
+      setGame((g) => (g ? { ...g, logHasUnread: false } : g))
+    } else {
+      setSave(markCodexRead(category))
+    }
     setCodexOpen(category)
   }
 
   function handleChoose(side) {
     if (!game || game.milestoneVisible) return
     const choice = game.current[side]
-    let meters = applyEffects(game.meters, choice.effects)
+    let meters = applyEffects(game.meters, choice.effects, game.day)
     const nextFlags = choice.setFlag ? { ...game.flags, [choice.setFlag]: true } : game.flags
     const lore = game.lore + (choice.loreEffect || 0)
     const queue = choice.queueCard
@@ -127,6 +134,10 @@ function App() {
 
     const hitMilestone = day === MILESTONE_DAY && !game.milestoneShown
 
+    const newLogIds = checkNewLogEntries({ day, meters, lore, flags: nextFlags }, game.logUnlocked)
+    const logUnlocked = newLogIds.length ? [...game.logUnlocked, ...newLogIds] : game.logUnlocked
+    const logHasUnread = game.logHasUnread || newLogIds.length > 0
+
     setGame({
       ...game,
       meters,
@@ -140,6 +151,8 @@ function App() {
       swapped: Math.random() < 0.5,
       milestoneShown: game.milestoneShown || hitMilestone,
       milestoneVisible: hitMilestone,
+      logUnlocked,
+      logHasUnread,
     })
   }
 
@@ -176,6 +189,7 @@ function App() {
           unread={{
             stages: !!save.codexSeen?.stages && !save.codexRead?.stages,
             units: !!save.codexSeen?.units && !save.codexRead?.units,
+            log: game.logHasUnread,
           }}
         />
 
@@ -206,8 +220,22 @@ function App() {
 
       {codexOpen && (
         <CodexModal
-          title={codexOpen === 'stages' ? t.codex.stagesLabel : t.codex.unitsLabel}
-          pages={codexOpen === 'stages' ? t.codex.stagesPages : t.codex.unitsPages}
+          title={
+            codexOpen === 'stages'
+              ? t.codex.stagesLabel
+              : codexOpen === 'units'
+                ? t.codex.unitsLabel
+                : t.codex.logLabel
+          }
+          pages={
+            codexOpen === 'stages'
+              ? t.codex.stagesPages
+              : codexOpen === 'units'
+                ? t.codex.unitsPages
+                : game?.logUnlocked?.length
+                  ? game.logUnlocked.map((id) => t.codex.logEntries[id])
+                  : [{ title: t.codex.logEmptyTitle, body: t.codex.logEmptyBody }]
+          }
           onClose={() => setCodexOpen(null)}
         />
       )}

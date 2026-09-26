@@ -29,6 +29,35 @@ export const en = {
   codex: {
     stagesLabel: 'Stages',
     unitsLabel: 'Camp Layout',
+    logLabel: 'Notes',
+    logEmptyTitle: 'Note to Self',
+    logEmptyBody: "Nothing worth writing down yet. Ask again once the term's had time to go somewhere.",
+    logEntries: {
+      'log-first-week': {
+        title: 'Note to Self — One Week In',
+        body: "Seven days as chairperson. I keep waiting to feel like I've grown into the job. Mostly I've just gotten faster at pretending I know what I'm doing before anyone notices I don't.\n\nThe forms make more sense than they did on day one, at least. That's something.",
+      },
+      'log-strain': {
+        title: 'Note to Self — The Strain Is Showing',
+        body: "I don't need the numbers to tell me things are stretched thin. I can see it in how people stand in the ration line now — closer together, but somehow further apart.\n\nEveryone's still doing their part. Nobody's smiling while they do it anymore.",
+      },
+      'log-grip-tightening': {
+        title: 'Note to Self — Somewhere Along the Way',
+        body: "I caught myself enjoying it today — someone hesitating before they argued with me, like it wasn't worth the trouble anymore. I didn't like how much I liked that.\n\nI don't remember deciding to run things this tightly. I don't remember deciding not to, either.",
+      },
+      'log-snowblind-rising': {
+        title: 'Note to Self — I Believe Them Now',
+        body: "I used to write the sightings off as stress, same as everyone before me probably did. I'm having a harder time doing that lately.\n\nI'm not writing down what changed my mind. Some things I'd rather not have in a file with my name on it.",
+      },
+      'log-piecing-together': {
+        title: "Note to Self — It's Not Just Rumors Anymore",
+        body: "I've stopped calling it a rumor in my own head, even if I still call it one out loud at meetings. There's a shape to it now. A pattern, if you line the pieces up, and I've lined up enough of them.\n\nI don't know yet if telling people helps or just gives the thing more room to spread. I keep meaning to decide. I keep not deciding.",
+      },
+      'log-final-stretch': {
+        title: 'Note to Self — Sixty Days',
+        body: "Sixty days. However this goes, it's supposed to resolve itself somewhere between now and thirty days from here — that's just how terms work, near as I've ever been told.\n\nI don't know if I believe that anymore. I don't know what I'd do differently if I didn't.",
+      },
+    },
     stagesPages: [
       {
         title: "Note to Self — on 'Stage 1'",
@@ -87,13 +116,19 @@ export const en = {
     },
     'conclusion-holdout': {
       title: 'The Line Outside the Wall',
-      message:
-        "It is not a rumor anymore. Past the wall, in a long, patient line that does not end at the ridge, they are standing — not attacking, not even close. Just waiting, the way snow waits. The committee never voted on this. Nobody knows what to put on the agenda for it.",
+      pages: [
+        "Day ninety. Nobody made a formal announcement — there wasn't one to make. The term just ran out, the way terms do, and the committee looked at me like they expected me to say something.\n\nI didn't have anything. Four numbers, mostly steady. A camp that's still standing, mostly upright. That was the whole report, if I'm honest with myself about it.\n\nEverybody else seemed satisfied with that. I keep waiting to feel the same.",
+        "It's not a rumor anymore, by the way. I should probably have written that down somewhere official, but there isn't a form for it.\n\nPast the wall, in a line that doesn't end at the ridge — doesn't end anywhere I can see — they're standing. Not moving toward us. Not really moving at all. Just standing there, patient, the way the snow is patient, like they've got nowhere else they'd rather be and no particular hurry to get there.\n\nThe committee never voted on what to do about that. I'm not sure a vote would even mean anything to it.",
+        "Somebody else takes the chair tomorrow. I already know I'll miss half the handoff meeting explaining things I never wrote down properly — which drawer the spare keys live in, why the thermostat argument between Block A and B is never actually about the thermostat.\n\nI won't tell them about the line outside the wall. They'll find out on their own, same as I did. That feels like the one piece of continuity this camp still has.\n\nMorale. Supplies. Order. I kept the numbers from hitting zero. Nobody asked me to keep anything else standing, so I suppose, on paper, I did the job.",
+      ],
     },
     'conclusion-embraced': {
       title: 'Someone Opened the Gate',
-      message:
-        'No vote was called. No memo went out. By the time anyone thought to object, half the committee was already outside, walking toward the white, unhurried, like they had been meaning to for years. The line that used to be outside the wall is not really outside anymore.',
+      pages: [
+        "Day ninety, or close enough that nobody's still counting exactly. I keep reaching for the ledger to write the number down out of habit, then remembering there's no one left to read it back to me.\n\nI used to think the job was four numbers. Morale, supplies, order, and whatever the fourth one was actually measuring, because I was never sure it was measuring what I called it.\n\nTurns out it was measuring exactly what I called it. I just didn't want to believe a number could mean that.",
+        "No vote was called. That's the part I keep circling back to — not that it happened, but how quietly it happened. No memo. No meeting. By the time anyone thought to ask a question, half the committee was already outside the wall, walking, unhurried, like people finally allowed to stop pretending they didn't want to.\n\nThe line that used to wait out there isn't really outside anymore. I'm not sure 'outside' means the same thing it used to.\n\nI keep thinking someone should have stopped this. I keep coming back to the fact that I was someone.",
+        "There's no handoff meeting this time. No next chairperson waiting in the wings, no spare keys to explain, no thermostat argument to inherit.\n\nI don't know if I'm writing this down for anyone, or just because writing things down is the last committee habit I've got left.\n\nMorale. Supplies. Order. Snowblind. Keep those balanced, I used to tell people, or the camp eats itself before anything outside gets the chance.\n\nI suppose I should have specified from which direction.",
+      ],
     },
   },
 
@@ -107,8 +142,8 @@ export const en = {
   cards: {
     'water-quota': {
       text: 'Camp records show Unit 12 used their shower allocation twice this week.',
-      left: 'Issue a formal warning',
-      right: 'Look the other way',
+      left: 'Write them up — make an example of it',
+      right: "Let it go this once, plenty of units are over some weeks",
     },
     'karaoke-night': {
       text: 'A resident group is petitioning for a weekly karaoke night. Singing carries far in the quiet after the snow.',
@@ -116,14 +151,14 @@ export const en = {
       right: 'Deny it',
     },
     'bathroom-bylaw': {
-      text: 'The bathroom queue bylaw amendment is up for a vote. Three residents have submitted 40-page arguments.',
-      left: 'Pass the amendment',
-      right: 'Table it indefinitely',
+      text: 'The bathroom queue order has three residents feuding hard enough that one wrote you a multi-page complaint.',
+      left: 'Post a fixed rotation on the door',
+      right: "Tell them to work it out between themselves",
     },
     'snack-theft': {
       text: 'Someone has been stealing extra ration bars from the pantry. Everyone has a theory about who.',
-      left: 'Install a lock',
-      right: 'Ask everyone nicely to stop',
+      left: 'Install a lock, treat it as solved',
+      right: 'Handle it as a trust problem, not a security one',
     },
     'thermostat-war': {
       text: 'Block A and Block B are in open war over the shared thermostat setting.',
@@ -137,8 +172,8 @@ export const en = {
     },
     'newsletter-gossip': {
       text: 'The camp newsletter wants to run a gossip column. Circulation would double overnight.',
-      left: 'Allow it',
-      right: 'Censor it',
+      left: 'Allow it, people could use the entertainment',
+      right: 'Keep it out, it always turns on someone eventually',
     },
     'birthday-party': {
       text: 'Unit 7 wants to throw a birthday party using three days of sugar rations.',
@@ -146,14 +181,14 @@ export const en = {
       right: 'Deny it',
     },
     'rigged-election': {
-      text: "Rumors say last quarter's committee election was rigged. Someone wants a recount.",
-      left: 'Order a recount',
-      right: 'Dismiss the rumor',
+      text: "Someone's convinced the last committee seat vote was fixed — they keep pointing at the same two ballots.",
+      left: 'Recount the ballots in front of them',
+      right: "Tell them the seat isn't worth relitigating",
     },
     'pet-policy': {
-      text: 'Someone smuggled a cat into camp. Bylaws say no pets. The cat is, unfortunately, very popular.',
-      left: 'Enforce the bylaw',
-      right: 'Grandfather the cat in',
+      text: 'Someone smuggled a cat into camp. The rule has always been no pets — one more mouth to feed nobody signed off on. The cat is, unfortunately, very popular.',
+      left: 'The rule stands. The cat goes',
+      right: 'Let it stay, quietly, and hope it earns its keep',
     },
     'rename-camp': {
       text: "The youth committee wants to rename 'Camp Unity' to 'Camp Chaos Gang.' They already made merch.",
@@ -162,8 +197,8 @@ export const en = {
     },
     'noise-complaint': {
       text: "A formal complaint has been filed against a resident who 'breathes too loud' during meetings.",
-      left: 'Take it seriously',
-      right: 'Laugh it off',
+      left: 'Log it formally, every complaint gets a record',
+      right: "Decide some complaints don't need a paper trail",
     },
     'heating-budget': {
       text: 'The heating budget review is three weeks overdue. Nobody wants to do it.',
@@ -216,9 +251,9 @@ export const en = {
       right: 'Increase gate watch',
     },
     'terminology-vote': {
-      text: "Motion to rename 'Stage 4 individuals' to 'those who chose their path,' for sensitivity.",
-      left: 'Pass the motion',
-      right: 'Reject it as a euphemism',
+      text: "The medic wants to stop saying 'Stage 4' out loud around camp. Suggests 'those who chose their path' instead.",
+      left: 'Adopt the softer phrase',
+      right: "Keep calling it what the medic's notes call it",
     },
     'exit-request': {
       text: "A Stage 4 resident has formally requested 'permission to walk out,' in writing, with a signature line.",
@@ -238,7 +273,7 @@ export const en = {
     'deputy-listening': {
       text: 'Your own deputy has started listening more than usual. They still do the job. For now.',
       left: 'Quietly reassign them',
-      right: 'Say nothing, hope it passes',
+      right: "Decide it's not worth confronting yet",
     },
     'gate-knocking': {
       text: 'Something knocked on the gate three times last night, evenly spaced, then stopped.',
@@ -425,7 +460,7 @@ export const en = {
     },
     'ledger-quiet-followup': {
       text: "The storekeeper's explanation didn't quite sit right. Small shortages keep turning up.",
-      left: 'Let it go',
+      left: "Decide it's not worth the confrontation over small amounts",
       right: 'Bring in a second person to co-sign the ledger from now on',
     },
     'ledger-audit-result': {
@@ -680,9 +715,9 @@ export const en = {
       right: 'Call it a waste of energy people should save',
     },
     'term-limits': {
-      text: 'A motion is on the table to formally cap how many terms a chairperson can serve, starting, notably, with you.',
-      left: 'Support the motion',
-      right: 'Argue continuity matters more right now',
+      text: "Someone's floated the idea that no chairperson should hold the seat past two terms — including you, currently on your first.",
+      left: 'Agree, write it into the handbook',
+      right: 'Say the camp needs steady hands more than fresh ones right now',
     },
 
     'frostbite-miracle': {
@@ -788,8 +823,8 @@ export const en = {
 
     'crisis-morale-quietquitting': {
       text: "People are still doing their assigned tasks, technically. But nobody's doing anything extra anymore. The difference is obvious.",
-      left: 'Address it directly, ask what\'s wrong',
-      right: "Ignore it, it'll pass",
+      left: "Call a meeting, ask what's wrong",
+      right: "Decide morale dips aren't worth chasing individually",
     },
     'crisis-morale-emptychair': {
       text: "A committee seat has sat empty for two weeks. Nobody's volunteering to fill it anymore.",
@@ -823,8 +858,8 @@ export const en = {
     },
     'crisis-tyranny-fearreport': {
       text: 'A resident admits, quietly, that people are afraid to disagree with committee decisions anymore.',
-      left: 'Reassure them, dismiss the concern',
-      right: 'Take it seriously, loosen enforcement',
+      left: "Tell them the rules are working exactly as intended",
+      right: 'Loosen enforcement, see if the fear was the rules',
     },
     'crisis-snowblind-mapdrawing': {
       text: "Someone's been drawing the same symbol on walls around camp. Nobody admits to it. Nobody's stopped it either.",

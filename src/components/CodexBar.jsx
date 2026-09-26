@@ -19,6 +19,15 @@ function LayoutIcon() {
   )
 }
 
+function NotebookIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 3.5h11a2 2 0 0 1 2 2V19a2 2 0 0 1-2 2H5z" />
+      <path d="M5 3.5v17M9 8h6M9 12h6M9 16h4" />
+    </svg>
+  )
+}
+
 function CodexBar({ onOpen, highlight, unread }) {
   const { t } = useLanguage()
 
@@ -43,6 +52,16 @@ function CodexBar({ onOpen, highlight, unread }) {
       >
         <LayoutIcon />
         {unread?.units && <span className="codex-badge" aria-hidden="true">!</span>}
+      </button>
+      <button
+        type="button"
+        className={`codex-btn ${unread?.log ? 'codex-btn--unread' : ''}`}
+        onClick={() => onOpen('log')}
+        aria-label={t.codex.logLabel}
+        title={t.codex.logLabel}
+      >
+        <NotebookIcon />
+        {unread?.log && <span className="codex-badge" aria-hidden="true">!</span>}
       </button>
     </div>
   )
