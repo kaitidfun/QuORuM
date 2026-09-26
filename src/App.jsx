@@ -9,7 +9,7 @@ import {
   pickCard,
   RECENT_HISTORY_SIZE,
 } from './game/engine'
-import { loadSave, recordRunEnd, markCodexSeen, markCodexRead } from './game/save'
+import { loadSave, recordRunEnd } from './game/save'
 import { checkNewLogEntries } from './game/log'
 import MeterBar from './components/MeterBar'
 import GameCard from './components/GameCard'
@@ -52,6 +52,11 @@ function newRunState(save) {
     milestoneVisible: false,
     logUnlocked: [],
     logHasUnread: false,
+    // Per-run, like the log: resets every new term, so the "!" badge fires
+    // again the first time a term's own cards mention Stages/Camp Layout,
+    // even if an earlier term already covered the same ground.
+    codexSeen: card.jargon ? { [card.jargon]: true } : {},
+    codexRead: {},
   }
 }
 
@@ -74,16 +79,14 @@ function App() {
 
   function handleBeginTerm() {
     setShowIntro(false)
-    const nextGame = newRunState(save)
-    if (nextGame.current.jargon) setSave(markCodexSeen(nextGame.current.jargon))
-    setGame(nextGame)
+    setGame(newRunState(save))
   }
 
   function handleOpenCodex(category) {
     if (category === 'log') {
       setGame((g) => (g ? { ...g, logHasUnread: false } : g))
     } else {
-      setSave(markCodexRead(category))
+      setGame((g) => (g ? { ...g, codexRead: { ...g.codexRead, [category]: true } } : g))
     }
     setCodexOpen(category)
   }
@@ -130,7 +133,10 @@ function App() {
     }
     const { card: nextCard, nextQueue } = pickCard(cards, pickState)
     const seenIds = [...game.seenIds, nextCard.id]
-    if (nextCard.jargon) setSave(markCodexSeen(nextCard.jargon))
+    const codexSeen =
+      nextCard.jargon && !game.codexSeen[nextCard.jargon]
+        ? { ...game.codexSeen, [nextCard.jargon]: true }
+        : game.codexSeen
 
     const hitMilestone = day === MILESTONE_DAY && !game.milestoneShown
 
@@ -153,6 +159,7 @@ function App() {
       milestoneVisible: hitMilestone,
       logUnlocked,
       logHasUnread,
+      codexSeen,
     })
   }
 
@@ -187,8 +194,8 @@ function App() {
           onOpen={handleOpenCodex}
           highlight={game.current.jargon}
           unread={{
-            stages: !!save.codexSeen?.stages && !save.codexRead?.stages,
-            units: !!save.codexSeen?.units && !save.codexRead?.units,
+            stages: !!game.codexSeen.stages && !game.codexRead.stages,
+            units: !!game.codexSeen.units && !game.codexRead.units,
             log: game.logHasUnread,
           }}
         />
